@@ -370,7 +370,7 @@ end)
 local Window = Rayfield:CreateWindow({
    Name = "Apex | MM2", 
    LoadingTitle = "",
-   LoadingSubtitle = "",
+   LoadingSubtitle = "by Apex",
    ConfigurationSaving = {Enabled = false},
    KeySystem = false
 })
