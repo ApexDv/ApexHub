@@ -33,21 +33,35 @@ local ColorSheriff = Color3.fromRGB(0, 150, 255)
 local ColorMurder = Color3.fromRGB(255, 0, 0)    
 local ColorGun = Color3.fromRGB(255, 255, 0) 
 
--- // TAG DE DONO //
+-- // LÓGICA DA TAG DONO (EM CIMA DA CABEÇA) //
 if isOwner then
-    local ownerTag = Instance.new("TextLabel")
-    ownerTag.Name = "OwnerTag"
-    ownerTag.Parent = game.CoreGui
-    ownerTag.Size = UDim2.new(0, 100, 0, 30)
-    ownerTag.Position = UDim2.new(0, 10, 0, 10)
-    ownerTag.BackgroundColor3 = Color3.fromRGB(255, 215, 0) -- Dourado
-    ownerTag.Text = "👑 DONO"
-    ownerTag.TextColor3 = Color3.fromRGB(0, 0, 0)
-    ownerTag.Font = Enum.Font.GothamBold
-    ownerTag.TextSize = 14
-    ownerTag.BorderSizePixel = 0
-    Instance.new("UICorner", ownerTag).CornerRadius = UDim.new(0, 6)
-    print("Bem-vindo, Dono do ApexHub!")
+    task.spawn(function()
+        while task.wait(0.5) do
+            local char = LocalPlayer.Character
+            local head = char and char:FindFirstChild("Head")
+            
+            -- Se a cabeça existir e não tiver a tag, ele cria
+            if head and not head:FindFirstChild("OwnerTagGui") then
+                local billboard = Instance.new("BillboardGui")
+                billboard.Name = "OwnerTagGui"
+                billboard.Adornee = head
+                billboard.Size = UDim2.new(0, 150, 0, 50)
+                billboard.StudsOffset = Vector3.new(0, 2.5, 0) -- Fica 2.5 studs acima da cabeça
+                billboard.AlwaysOnTop = true
+                billboard.Parent = head
+
+                local tag = Instance.new("TextLabel")
+                tag.Parent = billboard
+                tag.BackgroundTransparency = 1
+                tag.Size = UDim2.new(1, 0, 1, 0)
+                tag.Font = Enum.Font.GothamBold
+                tag.Text = "👑 DONO"
+                tag.TextColor3 = Color3.fromRGB(255, 215, 0) -- Dourado
+                tag.TextSize = 20 -- Deixei maior para destacar
+                tag.TextStrokeTransparency = 0
+            end
+        end
+    end)
 end
 
 -- // FUNÇÃO TP GUN //
@@ -354,7 +368,7 @@ end)
 
 -- // INTERFACE RAYFIELD //
 local Window = Rayfield:CreateWindow({
-   Name = isOwner and "👑 Painel do Dono" or "", 
+   Name = "Apex | MM2", 
    LoadingTitle = "",
    LoadingSubtitle = "",
    ConfigurationSaving = {Enabled = false},
@@ -365,7 +379,7 @@ local UpdateTab = Window:CreateTab("Atualizações",  "alert-triangle")
 local GameTab = Window:CreateTab("Game", "gamepad-2") 
 local EspTab = Window:CreateTab("ESP", "eye") 
 
-UpdateTab:CreateParagraph({Title = "Atualizações", Content = isOwner and "Bem-vindo, Dono! Acesso total liberado." or "Adicionado animações neon nas janelas flutuantes."})
+UpdateTab:CreateParagraph({Title = "Atualizações", Content = isOwner and "Bem-vindo, Dono! Acesso total liberado." or "Script carregado com sucesso."})
 
 -- ABA GAME
 GameTab:CreateToggle({
